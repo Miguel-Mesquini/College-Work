@@ -6,6 +6,8 @@
 
 using namespace std;
 
+
+/* ========= STRUCTS ========= */
 typedef struct datas
 {
 	int dia, mes, ano;
@@ -62,16 +64,49 @@ struct venda{
 	
 };*/
 
-
- 
-
+/* ========= STRUCTS ========= */
 
 
 
 
 
-DATA gerar_data()
-{
+/*  =========== MODULO DE ATUALIZAÇÃO =========== */                               
+
+ void menuAtualizacoes ()
+ void ClienteAtualizacoes ()
+ void ProdutosAtualizacoes ()
+
+
+ void menuAtualizacoes ()
+
+ {
+    cout << "================= \n"; 	
+	cout << " Atualizar Campo > \n";
+	cout << "================= \n \n"; 	
+	cout << "Escolha qual setor deseja alterar \n";
+	cout << " 1 - Clientes \n";	
+	cout << " 2 - Funcionarios \n";
+	cout << " 3 - Produtos \n";
+	cout << " 4 - Fornecedores \n";
+	cout << " 5 - Notas \n \n";
+	cout << " > ";
+	cin >> op;
+ }
+
+
+
+
+/*  =========== MODULO DE ATUALIZAÇÃO =========== */    
+
+
+
+
+
+
+/* ========= DATA  ========= */
+
+ DATA gerar_data()
+ {
 	DATA D;
 	time_t mytime;
 	mytime = time(NULL);
@@ -83,10 +118,10 @@ DATA gerar_data()
 	D.min = tm.tm_min;
 	D.seg = tm.tm_sec;
 	return D;	
-}
+ }
 
-void imprimir_data(DATA D)
-{
+ void imprimir_data(DATA D)
+  {
 	if (D.dia < 10)
 		cout << "0" << D.dia << "/";
 	else
@@ -111,14 +146,19 @@ void imprimir_data(DATA D)
 		cout << "0" << D.seg;
 	else
 		cout << D.seg;
-}
+ }
+
+ /* ========= DATA  ========= */
 
 
-bool BuscaCliente (int id, Cliente &pessoa);
-bool BuscaProduto (int id, Produto &coisa);
 
 
-void ListarClientes() {
+
+
+
+/* =========== RELATORIOS / LISTAGEM =========== */
+
+ void ListarClientes() {
 	FILE *arq = fopen("clientes.dat", "rb");
 	if (arq == NULL) {
 		cout << "\nNenhum cliente cadastrado ou erro ao abrir arquivo.\n";
@@ -144,14 +184,15 @@ void ListarClientes() {
 		}
 	}
 	fclose(arq);
-}
+ }
 
-void ListarProdutos() {
+ void ListarProdutos() 
+   {
 	FILE *arq = fopen("produtos.dat", "rb");
 	if (arq == NULL) {
 		cout << "\nNenhum produto cadastrado ou erro ao abrir arquivo.\n";
 		return;
-	}
+   }
 	Produto p;
 	cout << "\n================================ LISTA DE PRODUTOS ================================\n";
 	cout << left << setw(8) << "ID" 
@@ -161,7 +202,8 @@ void ListarProdutos() {
 		 << "Data Cadastro" << endl;
 	cout << "-----------------------------------------------------------------------------------\n";
 
-	while (fread(&p, sizeof(Produto), 1, arq) == 1) {
+	while (fread(&p, sizeof(Produto), 1, arq) == 1) 
+	{
 		if (p.ativo) {
 			cout << left << setw(8) << p.idProduto 
 				 << setw(22) << p.descricao 
@@ -172,10 +214,15 @@ void ListarProdutos() {
 		}
 	}
 	fclose(arq);
-}
+ }
+
+/* =========== RELATORIOS / LISTAGEM =========== */
 
 
-void CadastrarCliente() {
+
+
+/* =========== CADASTROS =========== */
+ void CadastrarCliente() {
 	system("cls");
 	for(int i=0; i < 3; i++) {
 		cout << "Cliente " << i+1 << endl;
@@ -184,7 +231,8 @@ void CadastrarCliente() {
 
 	
 		Cliente temp;
-		if (BuscaCliente(pessoa[i].idCliente, temp)) {
+		if (BuscaCliente(pessoa[i].idCliente, temp)) 
+		{
 			cout << "Erro: ID ja cadastrado! Tente novamente.\n";
 			i--; 
 			continue;
@@ -219,8 +267,9 @@ void CadastrarCliente() {
 	fclose (arq);
 	cout << "Clientes Cadastrados com Sucesso! \n";
 }
-
-void CadastrarProduto() {
+/* -----------------------------------------------------*/
+ 
+ void CadastrarProduto() {
 	system("cls");
 	FILE *arq = fopen ("produtos.dat", "ab");
 	if (arq == NULL) {
@@ -260,38 +309,14 @@ void CadastrarProduto() {
 	fclose (arq);
 	cout << "Produtos Cadastrados com Sucesso! \n";
 }
+/* =========== CADASTROS =========== */
 
-bool BuscaCliente (int id, Cliente &pessoa)
-{
-	FILE *arq = fopen("clientes.dat", "rb");
-	if (arq == NULL) return false;
 
-	while (fread(&pessoa, sizeof(Cliente), 1, arq) == 1) {
-		if (pessoa.idCliente == id && pessoa.ativo) {
-			fclose(arq);
-			return true;
-		}
-	}
+/* =========== BUSCA ID =========== */
+bool BuscaCliente (int id, Cliente &pessoa);
+bool BuscaProduto (int id, Produto &coisa);
 
-	fclose(arq);
-	return false;
-}
 
-bool BuscaProduto (int id, Produto &coisa)
-{
-	FILE *arq = fopen("produtos.dat", "rb");
-	if (arq == NULL) return false;
-
-	while (fread(&coisa, sizeof(Produto), 1, arq) == 1) {
-		if (coisa.idProduto == id && coisa.ativo) {
-			fclose(arq);
-			return true;
-		}
-	}
-
-	fclose(arq);
-	return false;
-}
 
 void MenuBuscaID ()
 {
@@ -352,6 +377,45 @@ void MenuBuscaID ()
 		}
 	}
 }    
+
+
+
+ bool BuscaCliente (int id, Cliente &pessoa)
+ {
+	FILE *arq = fopen("clientes.dat", "rb");
+	if (arq == NULL) return false;
+
+	while (fread(&pessoa, sizeof(Cliente), 1, arq) == 1) {
+		if (pessoa.idCliente == id && pessoa.ativo) {
+			fclose(arq);
+			return true;
+		}
+	}
+
+	fclose(arq);
+	return false;
+ } 
+/* -----------------------------------------------------*/
+bool BuscaProduto (int id, Produto &coisa)
+ {
+	FILE *arq = fopen("produtos.dat", "rb");
+	if (arq == NULL) return false;
+
+	while (fread(&coisa, sizeof(Produto), 1, arq) == 1) {
+		if (coisa.idProduto == id && coisa.ativo) {
+			fclose(arq);
+			return true;
+		}
+	}
+
+	fclose(arq);
+	return false; 
+ }
+
+ /* =========== BUSCA ID =========== */
+
+
+
 
 void menuprincipal(){
 	int op1, op2;
