@@ -62,6 +62,14 @@ struct venda{
 	
 };*/
 
+
+ 
+
+
+
+
+
+
 DATA gerar_data()
 {
 	DATA D;
