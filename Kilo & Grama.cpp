@@ -70,33 +70,7 @@ struct venda{
 
 
 
-/*  =========== MODULO DE ATUALIZA«√O =========== */                               
 
- void menuAtualizacoes ()
- void ClienteAtualizacoes ()
- void ProdutosAtualizacoes ()
-
-
- void menuAtualizacoes ()
-
- {
-    cout << "================= \n"; 	
-	cout << " Atualizar Campo > \n";
-	cout << "================= \n \n"; 	
-	cout << "Escolha qual setor deseja alterar \n";
-	cout << " 1 - Clientes \n";	
-	cout << " 2 - Funcionarios \n";
-	cout << " 3 - Produtos \n";
-	cout << " 4 - Fornecedores \n";
-	cout << " 5 - Notas \n \n";
-	cout << " > ";
-	cin >> op;
- }
-
-
-
-
-/*  =========== MODULO DE ATUALIZA«√O =========== */    
 
 
 
@@ -151,7 +125,278 @@ struct venda{
  /* ========= DATA  ========= */
 
 
+/*  =========== MODULO DE ATUALIZA√á√ÉO =========== */                               
 
+ 
+ void ClienteAtualizacoes ()
+  {
+ 		Cliente c;
+	 	int id;
+        bool achou=false;
+        int op;
+        
+	  FILE *arq = fopen("clientes.dat", "rb+");
+	   if (arq == NULL) 
+	   {
+		cout << "\n Nenhum cliente cadastrado ou erro ao abrir arquivo.\n";
+		return;
+       }              
+	   
+	   cout << "================= \n";
+	   cout << "-IDs Cadastrados- \n";
+	   cout << "================= \n";
+	   while (fread(&c, sizeof(Cliente), 1, arq) == 1)
+	    {
+         cout << "ID - " << c.idCliente << " - " << c.nome << "\n"; 	   
+		
+		}
+ 	   
+	  cout << "Digite o ID desejado: \n";
+	  cin >> id;
+	  system("cls");
+	  
+	  rewind(arq);
+	
+	  
+	  while (fread(&c, sizeof(Cliente), 1, arq) == 1)
+	  {
+	   if (c.idCliente == id )
+	    {
+	    achou=true;
+	    break;		 
+		}
+	  }	
+	  if (achou)
+	  {
+		fseek (arq, -(long)sizeof(Cliente), SEEK_CUR);
+    	  
+		cout <<"Nome: " << c.nome << endl ; 
+	 	cout <<"ID:" <<  c.idCliente << endl;
+		cout <<"CPF: " << c.cpf << endl ;
+		cout <<"Telefone"<< c.telefone<< endl;
+		imprimir_data(c.data);
+		cout << "\n \n";
+		
+	   cout << "Escolha o campo que deseja alterar" << endl;
+	   cout << "1- Nome" << endl;
+	   cout << "2- ID" << endl;
+	   cout << "3- CPF" << endl;
+	   cout << "4- Telefone" << "\n\n";
+	   cin >> op;
+	    
+		switch (op)
+		{
+		 case 1:
+		 {
+ 	 	 cout<< "Novo Nome: ";
+		 cin >> c.nome;
+		 break;
+	     }
+	
+	    case 2:
+		 {
+ 	 	 cout<< "Novo ID: ";
+		 cin >> c.idCliente;
+		 break;
+	     }
+	     
+	     case 3:
+		 {
+ 	 	 cout<< "Novo CPF: ";
+		 cin >> c.cpf;
+		 break;
+	     }
+	     
+	     case 4:
+		 {
+ 	 	 cout<< "Novo Telefone: ";
+		 cin >> c.telefone;
+		 break;
+	     }
+	
+	    } 
+	    
+		 }
+		
+   fwrite (&c, sizeof(Cliente), 1, arq);
+   cout << "Cliente atualizado! \n";
+   
+   fclose (arq);		
+ }
+
+ void ProdutosAtualizacoes ()
+ {
+  	Produto c;
+	 int id;
+        bool achou=false;
+        int op;
+        
+	  FILE *arq = fopen("produtos.dat", "rb+");
+	   if (arq == NULL) 
+	   {
+		cout << "\n Nenhum cliente cadastrado ou erro ao abrir arquivo.\n";
+		return;
+       }              
+	   
+	   cout << "================= \n";
+	   cout << "-IDs Cadastrados- \n";
+	   cout << "================= \n";
+	   while (fread(&c, sizeof(Produto), 1, arq) == 1)
+	    {
+         cout << "ID - " << c.idProduto << " - " << c.descricao << "\n"; 	   
+		
+		}
+ 	   
+	  cout << "Digite o ID desejado: \n";
+	  cin >> id;
+	  system("cls");
+	  
+	  rewind(arq);
+	
+	  
+	  while (fread(&c, sizeof(Produto), 1, arq) == 1)
+	  {
+	   if (c.idProduto == id )
+	    {
+	    achou=true;
+	    break;		 
+		}
+	  }	
+	  if (achou)
+	  {
+		fseek (arq, -(long)sizeof(Produto), SEEK_CUR);
+    	  
+		cout <<"Descricao: " << c.descricao << endl ; 
+	 	cout <<"ID Produto:" <<  c.idProduto << endl;
+		cout <<"ID Funcionario: " << c.idFornecedor << endl ;
+		cout <<"Custo"<< c.precoCusto<< endl;
+		cout <<"Venda"<< c.precoVenda<< endl;
+		cout <<"Estoque"<< c.estoque<< endl;
+
+
+		imprimir_data(c.data);
+		cout << "\n \n";
+		
+	   cout << "Escolha o campo que deseja alterar" << endl;
+	   cout << "1- Descricao" << endl;
+	   cout << "2- ID Produto" << endl;
+	   cout << "3- ID Funcionario" << endl;
+	   cout << "4- Custo" << endl;
+	   cout << "5- Venda" << endl;
+	   cout << "6- Estoque" << "\n\n";
+	   cin >> op;
+	    
+		switch (op)
+		{
+		 case 1:
+		 {
+ 	 	 cout<< "Nova Descricao: ";
+		 cin >> c.descricao;
+		 break;
+	     }
+	
+	    case 2:
+		 {
+ 	 	 cout<< "Novo ID Produto: ";
+		 cin >> c.idProduto;
+		 break;
+	     }
+	     
+	     case 3:
+		 {
+ 	 	 cout<< "Novo ID Fornecedor: ";
+		 cin >> c.idFornecedor;
+		 break;
+	     }
+	     
+	     case 4:
+		 {
+ 	 	 cout<< "Novo Custo: ";
+		 cin >> c.precoCusto;
+		 break;
+	     }
+	     
+	      case 5:
+		 {
+ 	 	 cout<< "Novo Venda: ";
+		 cin >> c.precoVenda;
+		 break;
+	     }
+	     
+	      case 6:
+		 {
+ 	 	 cout<< "Novo Estoque: ";
+		 cin >> c.estoque;
+		 break;
+	     }
+	     
+	    
+	
+	    } 
+	    
+		 }
+		
+   fwrite (&c, sizeof(Produto), 1, arq);
+   cout << "Produto atualizado! \n";
+   
+   fclose (arq);		
+ 
+ }
+
+
+
+
+
+
+
+
+
+
+
+ void menuAtualizacoes ()
+
+ {
+ 	int op;
+ 	
+    cout << "================= \n"; 	
+	cout << " Atualizar Campo > \n";
+	cout << "================= \n \n"; 	
+	cout << "Escolha qual setor deseja alterar \n";
+	cout << " 1 - Clientes \n";	
+	cout << " 2 - Funcionarios \n";
+	cout << " 3 - Produtos \n";
+	cout << " 4 - Fornecedores \n";
+	cout << " 5 - Notas \n \n";
+	cout << " > ";
+	cin >> op;
+	
+	system("cls");
+	switch (op)
+	{
+	 
+	 case 1:
+	 {
+	  ClienteAtualizacoes ();
+	  break;
+	 }
+	
+     case 3:
+	 {
+	  ProdutosAtualizacoes ();
+	  break;
+	 } 	
+	
+	 }
+			
+	
+	
+	}
+ 
+
+
+
+
+/*  =========== MODULO DE ATUALIZA√á√ÉO =========== */    
 
 
 
@@ -219,9 +464,13 @@ struct venda{
 /* =========== RELATORIOS / LISTAGEM =========== */
 
 
-
+bool BuscaCliente (int id, Cliente &pessoa);
+bool BuscaProduto (int id, Produto &coisa);
 
 /* =========== CADASTROS =========== */
+bool BuscaCliente (int id, Cliente &pessoa);
+bool BuscaProduto (int id, Produto &coisa);
+
  void CadastrarCliente() {
 	system("cls");
 	for(int i=0; i < 3; i++) {
@@ -245,7 +494,7 @@ struct venda{
 		cin >> pessoa[i].cpf;
 		cout << "Telefone: ";
 		cin >> pessoa[i].telefone;
-		cout << "EndereÁo: ";
+		cout << "Endere√ßo: ";
 		cin.ignore();
 		cin.getline(pessoa[i].endereco, 50);
 		
@@ -288,14 +537,14 @@ struct venda{
 			continue;
 		}
 
-		cout << "DescriÁ„o do Produto: ";
+		cout << "Descri√ß√£o do Produto: ";
 		cin.ignore();
 		cin.getline(coisa[i].descricao, 50);  
 		cout << "ID Fornecedor: ";
 		cin >> coisa[i].idFornecedor;
 		cout << "Custo: ";
 		cin >> coisa[i].precoCusto;
-		cout << "PreÁo de Venda: ";
+		cout << "Pre√ßo de Venda: ";
 		cin >> coisa[i].precoVenda;
 		cout << "Quantia em Estoque: ";
 		cin >> coisa[i].estoque;
@@ -313,8 +562,6 @@ struct venda{
 
 
 /* =========== BUSCA ID =========== */
-bool BuscaCliente (int id, Cliente &pessoa);
-bool BuscaProduto (int id, Produto &coisa);
 
 
 
@@ -423,6 +670,7 @@ void menuprincipal(){
 	cout << "1 - Menu de Cadastro" << endl;
 	cout << "2 - Busca por ID" << endl;
 	cout << "3 - Listagem Geral de Registros Ativos" << endl;
+	cout << "4 - Atualiza√ß√µes" << endl;
 	cin >> op1;
 
 	switch(op1)
@@ -464,6 +712,13 @@ void menuprincipal(){
 	    ListarProdutos();
 	break;
 		}
+	
+	  case 4:
+	  {
+	  menuAtualizacoes ();
+	    break;
+	  }
+	
 	}
 }
 
