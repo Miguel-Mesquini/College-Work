@@ -174,6 +174,7 @@ struct venda{
 	 	cout <<"ID:" <<  c.idCliente << endl;
 		cout <<"CPF: " << c.cpf << endl ;
 		cout <<"Telefone"<< c.telefone<< endl;
+		cout <<"Endereco"<< c.endereco<< endl;
 		imprimir_data(c.data);
 		cout << "\n \n";
 		
@@ -182,6 +183,7 @@ struct venda{
 	   cout << "2- ID" << endl;
 	   cout << "3- CPF" << endl;
 	   cout << "4- Telefone" << "\n\n";
+	   cout << "5- Endereco" << "\n\n";
 	   cin >> op;
 	    
 		switch (op)
@@ -210,7 +212,14 @@ struct venda{
 	     case 4:
 		 {
  	 	 cout<< "Novo Telefone: ";
+ 	 	 cout << c.telefone << endl;
 		 cin >> c.telefone;
+		 break;
+	     }
+	     case 5:
+		 {
+ 	 	 cout<< "Novo Endereco: ";
+		 cin >> c.endereco;
 		 break;
 	     }
 	
@@ -415,6 +424,7 @@ struct venda{
 		 << setw(20) << "Nome" 
 		 << setw(14) << "CPF" 
 		 << setw(12) << "Telefone" 
+		 << setw(25) << "Endereço"
 		 << "Data Cadastro" << endl;
 	cout << "-----------------------------------------------------------------------------------\n";
 
@@ -423,8 +433,9 @@ struct venda{
 			cout << left << setw(8) << p.idCliente 
 				 << setw(20) << p.nome 
 				 << setw(14) << p.cpf 
-				 << setw(12) << p.telefone;
-			imprimir_data(p.data);
+				 << setw(12) << p.telefone
+				 << setw(25) << p.endereco;
+ 			imprimir_data(p.data);
 			cout << endl;
 		}
 	}
@@ -494,9 +505,9 @@ bool BuscaProduto (int id, Produto &coisa);
 		cin >> pessoa[i].cpf;
 		cout << "Telefone: ";
 		cin >> pessoa[i].telefone;
-		cout << "EndereÃ§o: ";
+		cout << "Endereço: ";
+		cin >> pessoa[i].endereco;
 		cin.ignore();
-		cin.getline(pessoa[i].endereco, 50);
 		
 		
 		pessoa[i].data = gerar_data();
